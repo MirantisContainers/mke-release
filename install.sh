@@ -65,8 +65,26 @@ download_mkectl() {
   then
     arch=x86_64
   fi
-  curl --silent -L -s https://s3.us-east-2.amazonaws.com/packages-stage-mirantis.com/${MKECTL_VERSION}/mkectl_${uname}_${arch}.tar.gz | tar -xvzf - -C $installPath
-  echo "mkectl is now executable in $installPath"
+
+  # Check if the version exists on the server by checking HTTP status code
+  echo "Checking if the specified version exists..."
+  HTTP_STATUS=$(curl -s -o /tmp/mkectl.tar.gz -w "%{http_code}" "https://s3.us-east-2.amazonaws.com/packages-stage-mirantis.com/${MKECTL_VERSION}/mkectl_${uname}_${arch}.tar.gz")
+
+  # If HTTP status code is not 200 (OK), the file does not exist or there was an error
+  if [ "$HTTP_STATUS" -ne 200 ]; then
+    echo "Error: The specified version ${MKECTL_VERSION} does not exist or is invalid." >&2
+    exit 1
+  fi
+
+  # Verify the file is a valid gzip archive
+  if file /tmp/mkectl.tar.gz | grep -q 'gzip compressed data'; then
+    # Extract the downloaded file
+    tar -xvzf /tmp/mkectl.tar.gz -C "$installPath"
+    echo "mkectl is now executable in $installPath"
+  else
+    echo "Error: Downloaded file is not a valid gzip archive." >&2
+    exit 1
+  fi
 }
 
 main() {
@@ -123,15 +141,8 @@ main() {
       fi
 
       echo "MKECTL_VERSION not set, using latest release: ${MKECTL_VERSION}"
-# TODO: Uncomment the following block after the mke-release starts getting all the releases
-#  else
-#      # Make sure it is a valid version
-#      if ! curl -s https://api.github.com/repos/mirantiscontainers/mke-release/releases | grep -q "\"tag_name\": \"${MKECTL_VERSION}\""; then
-#        echo "Invalid version specified: ${MKECTL_VERSION}"
-#        exit 1
-#      fi
-#
-#      echo "Using specified version: ${MKECTL_VERSION}"
+  else
+      echo "Using specified version: ${MKECTL_VERSION}"
   fi
 
   printf "\n"
