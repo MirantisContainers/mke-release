@@ -113,9 +113,27 @@ main() {
   echo "#########################"
 
   if [ -z "${MKECTL_VERSION}" ]; then
-    echo "Using default mkectl version v4.0.0-rc.5"
-    MKECTL_VERSION=v4.0.0-rc.5
+      # Determine the version
+      # Get information about the latest release and pull version from the tag
+      MKECTL_VERSION=$(curl -s https://api.github.com/repos/mirantiscontainers/mke-release/releases/latest | grep '"tag_name"' | tr -s ' ' | cut -d ' ' -f 3 | cut -d '"' -f 2)
+
+      if [ -z "${MKECTL_VERSION}" ]; then
+        echo "Failed to retrieve the latest release version."
+        exit 1
+      fi
+
+      echo "MKECTL_VERSION not set, using latest release: ${MKECTL_VERSION}"
+# TODO: Uncomment the following block after the mke-release starts getting all the releases
+#  else
+#      # Make sure it is a valid version
+#      if ! curl -s https://api.github.com/repos/mirantiscontainers/mke-release/releases | grep -q "\"tag_name\": \"${MKECTL_VERSION}\""; then
+#        echo "Invalid version specified: ${MKECTL_VERSION}"
+#        exit 1
+#      fi
+#
+#      echo "Using specified version: ${MKECTL_VERSION}"
   fi
+
   printf "\n"
 
 
