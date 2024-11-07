@@ -65,8 +65,26 @@ download_mkectl() {
   then
     arch=x86_64
   fi
-  curl --silent -L -s https://s3.us-east-2.amazonaws.com/packages-stage-mirantis.com/${MKECTL_VERSION}/mkectl_${uname}_${arch}.tar.gz | tar -xvzf - -C $installPath
-  echo "mkectl is now executable in $installPath"
+
+  # Check if the version exists on the server by checking HTTP status code
+  echo "Checking if the specified version exists..."
+  HTTP_STATUS=$(curl -s -o /tmp/mkectl.tar.gz -w "%{http_code}" "https://s3.us-east-2.amazonaws.com/packages-stage-mirantis.com/${MKECTL_VERSION}/mkectl_${uname}_${arch}.tar.gz")
+
+  # If HTTP status code is not 200 (OK), the file does not exist or there was an error
+  if [ "$HTTP_STATUS" -ne 200 ]; then
+    echo "Error: The specified version ${MKECTL_VERSION} does not exist or is invalid." >&2
+    exit 1
+  fi
+
+  # Verify the file is a valid gzip archive
+  if file /tmp/mkectl.tar.gz | grep -q 'gzip compressed data'; then
+    # Extract the downloaded file
+    tar -xvzf /tmp/mkectl.tar.gz -C "$installPath"
+    echo "mkectl is now executable in $installPath"
+  else
+    echo "Error: Downloaded file is not a valid gzip archive." >&2
+    exit 1
+  fi
 }
 
 main() {
@@ -113,9 +131,20 @@ main() {
   echo "#########################"
 
   if [ -z "${MKECTL_VERSION}" ]; then
-    echo "Using default mkectl version v4.0.0-rc.5"
-    MKECTL_VERSION=v4.0.0-rc.5
+      # Determine the version
+      # Get information about the latest release and pull version from the tag
+      MKECTL_VERSION=$(curl -s https://api.github.com/repos/mirantiscontainers/mke-release/releases/latest | grep '"tag_name"' | tr -s ' ' | cut -d ' ' -f 3 | cut -d '"' -f 2)
+
+      if [ -z "${MKECTL_VERSION}" ]; then
+        echo "Failed to retrieve the latest release version."
+        exit 1
+      fi
+
+      echo "MKECTL_VERSION not set, using latest release: ${MKECTL_VERSION}"
+  else
+      echo "Using specified version: ${MKECTL_VERSION}"
   fi
+
   printf "\n"
 
 
