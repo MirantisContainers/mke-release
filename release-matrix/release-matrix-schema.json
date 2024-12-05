@@ -7,24 +7,28 @@
     "type": "object",
     "properties": {
       "clusterVersion": {
-        "description": "The unique identifier for a product",
+        "description": "The MKE 4 minor/patch version that this entry applies to",
         "type": "string"
       },
       "blueprintOperatorVersion": {
-        "description": "Name of the product",
+        "description": "Blueprint operator version for this MKE 4 release",
         "type": "string"
       },
       "mkeOperatorVersion": {
         "type": "string",
-        "description": "The price of the product"
+        "description": "MKE Operator version for this MKE 4 release"
       },
       "k0sVersion": {
         "type": "string",
-        "description": "The price of the product"
+        "description": "k0s version for this MKE 4 release"
       },
-      "isLatest": {"const": true },
+      "isLatest": {
+        "type": "boolean",
+        "description": "Whether this is the latest MKE 4 release"
+      },
       "minimumMkectlVersion": {
-        "type": "string"
+        "type": "string",
+        "description": "Minimum mkectl version required to install this MKE 4 release"
       }
     },
     "required": ["clusterVersion", "blueprintOperatorVersion", "mkeOperatorVersion", "k0sVersion", "minimumMkectlVersion"]
