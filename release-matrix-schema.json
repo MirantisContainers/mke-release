@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MKE 4 Release Matrix",
+  "description": "",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "clusterVersion": {
+        "description": "The unique identifier for a product",
+        "type": "string"
+      },
+      "blueprintOperatorVersion": {
+        "description": "Name of the product",
+        "type": "string"
+      },
+      "mkeOperatorVersion": {
+        "type": "string",
+        "description": "The price of the product"
+      },
+      "k0sVersion": {
+        "type": "string",
+        "description": "The price of the product"
+      },
+      "isLatest": {"const": true },
+      "minimumMkectlVersion": {
+        "type": "string"
+      }
+    },
+    "required": ["clusterVersion", "blueprintOperatorVersion", "mkeOperatorVersion", "k0sVersion", "minimumMkectlVersion"]
+  }
+}
