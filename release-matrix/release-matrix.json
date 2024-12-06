@@ -1,6 +1,6 @@
 [
   {
-    "mkeReleaseVersion": "v4.0.1",
+    "mkeReleaseVersion": "v4.0.1-tp.1",
     "blueprintOperatorVersion": "v1.0.17",
     "mkeOperatorVersion": "v1.1.0",
     "k0sVersion": "v1.31.2+k0s.0",
