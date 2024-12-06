@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "MKE 4 Release Matrix",
+  "title": "MKE 4 Release Compatibility Matrix",
   "description": "",
   "type": "array",
   "items": {
     "type": "object",
     "properties": {
-      "clusterVersion": {
+      "mkeReleaseVersion": {
         "description": "The MKE 4 minor/patch version that this entry applies to",
         "type": "string"
       },
@@ -31,6 +31,6 @@
         "description": "Minimum mkectl version required to install this MKE 4 release"
       }
     },
-    "required": ["clusterVersion", "blueprintOperatorVersion", "mkeOperatorVersion", "k0sVersion", "minimumMkectlVersion"]
+    "required": ["mkeReleaseVersion", "blueprintOperatorVersion", "mkeOperatorVersion", "k0sVersion", "minimumMkectlVersion"]
   }
 }
