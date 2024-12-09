@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MKE 4 Release Compatibility Matrix",
+  "description": "",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "mkeReleaseVersion": {
+        "description": "The MKE 4 minor/patch version that this entry applies to",
+        "type": "string"
+      },
+      "blueprintOperatorVersion": {
+        "description": "Blueprint operator version for this MKE 4 release",
+        "type": "string"
+      },
+      "mkeOperatorVersion": {
+        "type": "string",
+        "description": "MKE Operator version for this MKE 4 release"
+      },
+      "k0sVersion": {
+        "type": "string",
+        "description": "k0s version for this MKE 4 release"
+      },
+      "isLatest": {
+        "type": "boolean",
+        "description": "Whether this is the latest MKE 4 release"
+      },
+      "minimumMkectlVersion": {
+        "type": "string",
+        "description": "Minimum mkectl version required to install this MKE 4 release"
+      }
+    },
+    "required": ["mkeReleaseVersion", "blueprintOperatorVersion", "mkeOperatorVersion", "k0sVersion", "minimumMkectlVersion"]
+  }
+}
