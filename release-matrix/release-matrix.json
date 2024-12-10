@@ -1,0 +1,10 @@
+[
+  {
+    "mkeReleaseVersion": "v4.0.0",
+    "blueprintOperatorVersion": "v1.0.17",
+    "mkeOperatorVersion": "v1.0.0",
+    "k0sVersion": "v1.31.1+k0s.2",
+    "isLatest": true,
+    "minimumMkectlVersion": "v4.0.0"
+  }
+]
