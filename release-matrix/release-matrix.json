@@ -4,6 +4,8 @@
     "blueprintOperatorVersion": "v1.0.18",
     "mkeOperatorVersion": "v1.2.1",
     "k0sVersion": "v1.31.1+k0s.1",
+    "calicoOSSVersion": "v3.28.2",
+    "calicoEntVersion": "v3.19.4",
     "isLatest": true,
     "minimumMkectlVersion": "v4.0.1-alpha.2"
   },
@@ -12,6 +14,8 @@
     "blueprintOperatorVersion": "v1.0.17",
     "mkeOperatorVersion": "v1.0.0",
     "k0sVersion": "v1.31.1+k0s.1",
+    "calicoOSSVersion": "v3.28.2",
+    "calicoEntVersion": "v3.19.4",
     "isLatest": false,
     "minimumMkectlVersion": "v4.0.0"
   }
