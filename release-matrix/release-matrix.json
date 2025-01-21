@@ -1,10 +1,26 @@
 [
   {
+    "mkeReleaseVersion": "v4.0.1-rc.2",
+    "blueprintOperatorVersion": "v1.0.21",
+    "mkeOperatorVersion": "v1.2.6",
+    "k0sVersion": "v1.31.1+k0s.1",
+    "isLatest": true,
+    "minimumMkectlVersion": "v4.0.1-rc.2"
+  },  
+  {
+    "mkeReleaseVersion": "v4.0.1-rc.1",
+    "blueprintOperatorVersion": "v1.0.21",
+    "mkeOperatorVersion": "v1.2.5",
+    "k0sVersion": "v1.31.1+k0s.1",
+    "isLatest": false,
+    "minimumMkectlVersion": "v4.0.1-rc.1"
+  },  
+  {
     "mkeReleaseVersion": "v4.0.1-beta.1",
     "blueprintOperatorVersion": "v1.0.20",
     "mkeOperatorVersion": "v1.2.4",
     "k0sVersion": "v1.31.1+k0s.1",
-    "isLatest": true,
+    "isLatest": false,
     "minimumMkectlVersion": "v4.0.1-beta.1"
   },
   {
