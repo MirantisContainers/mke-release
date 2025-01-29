@@ -1,0 +1,50 @@
+name: Update Homebrew Formula
+
+on:
+#  release:
+#    types: [published]
+  workflow_call:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Get Latest Release Info
+        id: release
+        run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Get SHA256 Checksum
+        run: |
+          ASSET_URL=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.assets[0].browser_download_url')
+          curl -L -o mkectl.tar.gz "$ASSET_URL"
+          echo "sha256=$(sha256sum mkectl.tar.gz | awk '{print $1}')" >> $GITHUB_ENV
+
+      - name: Update Homebrew Formula
+        run: |
+          FORMULA_PATH="Formula/mkectl.rb"
+          sed -i "s/VERSION = \".*\"/VERSION = \"${{ env.version }}\"/" $FORMULA_PATH
+          sed -i "s/sha256 \".*\"/sha256 \"${{ env.sha256 }}\"/" $FORMULA_PATH
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git checkout -b update-mkectl-${{ env.version }}
+          git add Formula/mkectl.rb
+          git commit -m "Update mkectl to ${{ env.version }}"
+          git push origin update-mkectl-${{ env.version }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "Update mkectl formula to ${{ env.version }}"
+          body: "This PR updates the mkectl formula to version ${{ env.version }}."
+          branch: update-mkectl-${{ env.version }}
+          base: main
