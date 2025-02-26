@@ -38,27 +38,6 @@ download_k0sctl_url() {
   echo "https://github.com/k0sproject/k0sctl/releases/download/v$K0SCTL_VERSION/k0sctl-$uname-$arch"
 }
 
-# download_kubectl_url() fetches the kubectl download url.
-download_kubectl_url() {
-  if [ "$arch" = "x64" ];
-  then
-    arch=amd64
-  fi
-  echo "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/${uname}/${arch}/kubectl"
-}
-
-install_kubectl() {
-  if [ -z "${KUBECTL_VERSION}" ]; then
-    echo "Using default kubectl version v1.30.0"
-    KUBECTL_VERSION=v1.30.0
-  fi
-  kubectlDownloadUrl="$(download_kubectl_url)"
-  echo "Downloading kubectl from URL: $kubectlDownloadUrl"
-  curl -sSLf "$kubectlDownloadUrl" >$installPath/$kubectlBinary
-  sudo chmod 755 "$installPath/$kubectlBinary"
-  echo "kubectl is now executable in $installPath"
-}
-
 # download_mkectl downloads the mkectl binary.
 download_mkectl() {
   if [ "$arch" = "x64" ] || [ "$arch" = "amd64" ];
@@ -84,85 +63,150 @@ download_mkectl() {
  curl -s -L -o /tmp/mkectl.tar.gz "$DOWNLOAD_URL"
 
  # Verify the file is a valid gzip archive
- if [ -s /tmp/mkectl.tar.gz ] && file /tmp/mkectl.tar.gz | grep -q 'gzip compressed data'; then
+ if [ -s /tmp/mkectl.tar.gz ]; then
    # Extract the downloaded file
-   tar -xvzf /tmp/mkectl.tar.gz -C "$installPath"
-   echo "mkectl is now executable in $installPath"
+   tar -xvzf /tmp/mkectl.tar.gz -C "$installPath" && echo "mkectl is now executable in $installPath" || echo "Error: Downloaded file is not a valid gzip archive" >&2 && exit 1
  else
-   echo "Error: Downloaded file is empty or not a valid gzip archive." >&2
+   echo "Error: Downloaded file is empty." >&2
    exit 1
  fi
 }
 
+# Download dependencies for MKE version 4.0.0
+download_dependencies() {
+    printf "\n\n"
+
+    echo "Install k0sctl"
+    echo "#########################"
+
+    if [ -z "${K0SCTL_VERSION}" ]; then
+      echo "Using default k0sctl version 0.19.4"
+      K0SCTL_VERSION=0.19.4
+    fi
+
+    k0sctlBinary=k0sctl
+    k0sctlDownloadUrl="$(download_k0sctl_url)"
+
+
+    echo "Downloading k0sctl from URL: $k0sctlDownloadUrl"
+    curl -sSLf "$k0sctlDownloadUrl" >"$installPath/$k0sctlBinary"
+
+    sudo chmod 755 "$installPath/$k0sctlBinary"
+    echo "k0sctl is now executable in $installPath"
+}
+
+# compares versions by ordering them
+# Do not use it to compare any semver formats, as it compares release and pre-release versions incorrectly.
+# It's used only to compare v4.0.1-* pre-release versions
+version_greater_or_equal() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" == "$1"; }
+
+# removes leading zero sign from the version part
+normalizeSemverZero() {
+  next=$(printf %s "${1#0}")
+  if [ -z "$next" ]; then
+    printf %s "$1"
+  fi
+  printf %s "$next"
+}
+
+# checks if the version contains the specified sign
+semverIncludesString() {
+  string="$1"
+  substring="$2"
+  if [ "${string#*"$substring"}" != "$string" ]
+  then
+    printf "1"
+    return 1    # $substring is in $string
+  fi
+  printf "0"
+  return 0    # $substring is not in $string
+}
+
+# checks mkectl version and installs required dependencies
+installRequiredDependencies() {
+  # since this version MKE doesn't need any dependencies
+  mke_version_without_dependencies="4.0.1-rc.6"
+
+  # remove any +METADATA if exists
+  version=$(printf %s "$1" | cut -d'+' -f 1)
+  # remove leading v
+  version=$(printf "%s${version#v}")
+  version_major=$(normalizeSemverZero "$(printf %s "$version" | cut -d'.' -f 1)")
+  version_minor=$(normalizeSemverZero "$(printf %s "$version" | cut -d'.' -f 2)")
+  version_patch=$(normalizeSemverZero "$(printf %s "$version" | cut -d'.' -f 3 | cut -d'-' -f 1)")
+
+  # any versions before v4.0.1-rc.6 require to install dependencies
+  if [ "$version_major" -le 4 ] && [ "$version_minor" -le 0 ]; then
+    if [ "$version_major" -lt 4 ]; then
+      echo "MKE version 3 is not supported by this installation method"
+      exit 1
+    fi
+    if [ "$version_patch" -gt 1 ]; then
+      return
+    fi
+    if [ $version_patch == 1 ] && ([ $(semverIncludesString "$version" -) != 1 ] || version_greater_or_equal "$version" "$mke_version_without_dependencies"); then
+      return
+    fi
+
+    echo "Installing required dependencies..."
+    download_dependencies
+  fi
+}
+
+# checks that sudo and curl system dependencies are installed
+check_required_tool() {
+  missing_tools=""
+  if ! which "curl" > /dev/null; then
+    missing_tools="${missing_tools} curl"
+  fi
+
+  if ! which "sudo" > /dev/null; then
+    missing_tools="${missing_tools} sudo"
+  fi
+
+  if [ ! -z "$missing_tools" ]; then
+    echo "Please install required tools${missing_tools} and retry installation"
+    exit 1
+  fi
+}
+
 main() {
+  check_required_tool
 
   uname="$(detect_uname)"
   arch="$(detect_arch)"
-
-  printf "\n\n"
-
-  echo "Step 1/3 : Install k0sctl"
-  echo "#########################"
-
-  if [ -z "${K0SCTL_VERSION}" ]; then
-    echo "Using default k0sctl version 0.19.4"
-    K0SCTL_VERSION=0.19.4
-  fi
-
-  k0sctlBinary=k0sctl
   installPath=/usr/local/bin
-  k0sctlDownloadUrl="$(download_k0sctl_url)"
-
-
-  echo "Downloading k0sctl from URL: $k0sctlDownloadUrl"
-  curl -sSLf "$k0sctlDownloadUrl" >"$installPath/$k0sctlBinary"
-
-  sudo chmod 755 "$installPath/$k0sctlBinary"
-  echo "k0sctl is now executable in $installPath"
-
-  printf "\n\n"
-  echo "Step 2/3 : Install kubectl"
-  echo "#########################"
-
-  kubectlBinary=kubectl
-
-  if [ -x "$(command -v "$kubectlBinary")" ]; then
-    VERSION="$($kubectlBinary version | grep Client | cut -d: -f2)"
-    echo "$kubectlBinary version $VERSION already exists."
-  else
-    install_kubectl
-  fi
-
-  printf "\n\n"
-  echo "Step 3/3 : Install mkectl"
-  echo "#########################"
 
   if [ -z "${MKECTL_VERSION}" ]; then
-      # Determine the version
-      # Get information about the latest release and pull version from the tag
-      MKECTL_VERSION=$(curl -s https://api.github.com/repos/mirantiscontainers/mke-release/releases/latest | grep '"tag_name"' | tr -s ' ' | cut -d ' ' -f 3 | cut -d '"' -f 2)
+    # Determine the version
+    # Get information about the latest release and pull version from the tag
+    MKECTL_VERSION=$(curl -s https://api.github.com/repos/mirantiscontainers/mke-release/releases/latest | grep '"tag_name"' | tr -s ' ' | cut -d ' ' -f 3 | cut -d '"' -f 2)
 
-      if [ -z "${MKECTL_VERSION}" ]; then
-        echo "Failed to retrieve the latest release version."
-        exit 1
-      fi
+    if [ -z "${MKECTL_VERSION}" ]; then
+      echo "Failed to retrieve the latest release version."
+      exit 1
+    fi
 
-      echo "MKECTL_VERSION not set, using latest release: ${MKECTL_VERSION}"
+    echo "MKECTL_VERSION not set, using latest release: ${MKECTL_VERSION}"
 
   else
-      # Make sure it is a valid version
-      if ! curl -s https://api.github.com/repos/mirantiscontainers/mke-release/releases | grep -q "\"tag_name\": \"${MKECTL_VERSION}\""; then
-          echo "Error: Invalid version specified: ${MKECTL_VERSION}"
-          exit 1
-      fi
+    # Make sure it is a valid version
+    if ! curl -s https://api.github.com/repos/mirantiscontainers/mke-release/releases | grep -q "\"tag_name\": \"${MKECTL_VERSION}\""; then
+      echo "Error: Invalid version specified: ${MKECTL_VERSION}"
+      exit 1
+    fi
 
-      echo "Using specified version: ${MKECTL_VERSION}"
+    echo "Using specified version: ${MKECTL_VERSION}"
   fi
+
+  installRequiredDependencies "$MKECTL_VERSION"
+
+  printf "\n\n"
+  echo "Install mkectl"
+  echo "#########################"
 
   printf "\n"
 
-
-  echo "Downloading mkectl"
   download_mkectl
 
 }
