@@ -10,8 +10,8 @@
         "description": "The MKE 4 minor/patch version that this entry applies to",
         "type": "string"
       },
-      "blueprintOperatorVersion": {
-        "description": "Blueprint operator version for this MKE 4 release",
+      "k0rdentVersion": {
+        "description": "K0rdent version for this MKE 4 release",
         "type": "string"
       },
       "mkeOperatorVersion": {
@@ -31,6 +31,6 @@
         "description": "Minimum mkectl version required to install this MKE 4 release"
       }
     },
-    "required": ["mkeReleaseVersion", "blueprintOperatorVersion", "mkeOperatorVersion", "k0sVersion", "minimumMkectlVersion"]
+    "required": ["mkeReleaseVersion", "k0rdentVersion", "mkeOperatorVersion", "k0sVersion", "minimumMkectlVersion"]
   }
 }
