@@ -1,42 +1,18 @@
 [
   {
-    "mkeReleaseVersion": "v4.0.1-rc.2",
-    "blueprintOperatorVersion": "v1.0.21",
-    "mkeOperatorVersion": "v1.2.6",
-    "k0sVersion": "v1.31.1+k0s.1",
+    "mkeReleaseVersion": "v4.1.1-alpha.1",
+    "k0rdentVersion": "v0.2.0-alpha4",
+    "mkeOperatorVersion": "v1.3.2",
+    "k0sVersion": "v1.32.3+k0s.0",
     "isLatest": true,
-    "minimumMkectlVersion": "v4.0.1-rc.2"
-  },  
-  {
-    "mkeReleaseVersion": "v4.0.1-rc.1",
-    "blueprintOperatorVersion": "v1.0.21",
-    "mkeOperatorVersion": "v1.2.5",
-    "k0sVersion": "v1.31.1+k0s.1",
-    "isLatest": false,
-    "minimumMkectlVersion": "v4.0.1-rc.1"
-  },  
-  {
-    "mkeReleaseVersion": "v4.0.1-beta.1",
-    "blueprintOperatorVersion": "v1.0.20",
-    "mkeOperatorVersion": "v1.2.4",
-    "k0sVersion": "v1.31.1+k0s.1",
-    "isLatest": false,
-    "minimumMkectlVersion": "v4.0.1-beta.1"
+    "minimumMkectlVersion": "v4.1.1-alpha.1"
   },
   {
-    "mkeReleaseVersion": "v4.0.1-alpha.2",
-    "blueprintOperatorVersion": "v1.0.18",
-    "mkeOperatorVersion": "v1.2.1",
-    "k0sVersion": "v1.31.1+k0s.1",
+    "mkeReleaseVersion": "v4.1.0",
+    "k0rdentVersion": "v0.2.0-alpha4",
+    "mkeOperatorVersion": "v1.3.0",
+    "k0sVersion": "v1.32.3+k0s.0",
     "isLatest": false,
-    "minimumMkectlVersion": "v4.0.1-alpha.2"
-  },
-  {
-    "mkeReleaseVersion": "v4.0.0",
-    "blueprintOperatorVersion": "v1.0.17",
-    "mkeOperatorVersion": "v1.0.0",
-    "k0sVersion": "v1.31.1+k0s.1",
-    "isLatest": false,
-    "minimumMkectlVersion": "v4.0.0"
+    "minimumMkectlVersion": "v4.1.0"
   }
 ]

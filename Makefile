@@ -1,7 +1,8 @@
 .PHONY: install-jsonschema validate-json
 
 install-jsonschema:
-	pip3 install jsonschema
+	python3 -m venv .venv
+	. .venv/bin/activate && pip install jsonschema
 
 validate-json: install-jsonschema
-	python3 release-matrix/validate_json.py release-matrix/release-matrix.json release-matrix/release-matrix-schema.json
+	. .venv/bin/activate && python3 release-matrix/validate_json.py release-matrix/release-matrix.json release-matrix/release-matrix-schema.json
