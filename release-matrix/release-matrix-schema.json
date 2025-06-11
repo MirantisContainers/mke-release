@@ -14,9 +14,13 @@
         "description": "K0rdent version for this MKE 4 release",
         "type": "string"
       },
-      "mkeOperatorVersion": {
+      "mkeOperatorImageVersion": {
         "type": "string",
-        "description": "MKE Operator version for this MKE 4 release"
+        "description": "MKE Operator Image version for this MKE 4 release"
+      },
+      "mkeOperatorChartVersion": {
+        "type": "string",
+        "description": "MKE Operator Helm Chart version for this MKE 4 release"
       },
       "k0sVersion": {
         "type": "string",
@@ -31,6 +35,6 @@
         "description": "Minimum mkectl version required to install this MKE 4 release"
       }
     },
-    "required": ["mkeReleaseVersion", "k0rdentVersion", "mkeOperatorVersion", "k0sVersion", "minimumMkectlVersion"]
+    "required": ["mkeReleaseVersion", "k0rdentVersion", "mkeOperatorImageVersion", "mkeOperatorChartVersion", "k0sVersion", "minimumMkectlVersion"]
   }
 }
