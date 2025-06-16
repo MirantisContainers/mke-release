@@ -22,6 +22,10 @@
         "type": "string",
         "description": "MKE Operator Helm Chart version for this MKE 4 release"
       },
+      "calicoOSSVersion": {
+        "type": "string",
+        "description": "Version of Calico OSS used in this MKE 4 release"
+      },
       "k0sVersion": {
         "type": "string",
         "description": "k0s version for this MKE 4 release"
@@ -35,6 +39,6 @@
         "description": "Minimum mkectl version required to install this MKE 4 release"
       }
     },
-    "required": ["mkeReleaseVersion", "k0rdentVersion", "mkeOperatorImageVersion", "mkeOperatorChartVersion", "k0sVersion", "minimumMkectlVersion"]
+    "required": ["mkeReleaseVersion", "k0rdentVersion", "mkeOperatorImageVersion", "mkeOperatorChartVersion", "calicoOSSVersion", "k0sVersion", "minimumMkectlVersion"]
   }
 }

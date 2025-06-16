@@ -4,6 +4,7 @@
     "k0rdentVersion": "v0.2.0-alpha4",
     "mkeOperatorImageVersion": "v1.3.2",
     "mkeOperatorChartVersion": "1.1.4",
+    "calicoOSSVersion": "v3.29.3",
     "k0sVersion": "v1.32.3+k0s.0",
     "isLatest": true,
     "minimumMkectlVersion": "v4.1.1-alpha.1"
@@ -13,6 +14,7 @@
     "k0rdentVersion": "v0.2.0-alpha4",
     "mkeOperatorImageVersion": "v1.3.0",
     "mkeOperatorChartVersion": "1.0.0",
+    "calicoOSSVersion": "v3.29.3",
     "k0sVersion": "v1.32.3+k0s.0",
     "isLatest": false,
     "minimumMkectlVersion": "v4.1.0"
