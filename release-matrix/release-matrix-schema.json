@@ -33,8 +33,33 @@
       "minimumMkectlVersion": {
         "type": "string",
         "description": "Minimum mkectl version required to install this MKE 4 release"
+      },
+      "network": {
+        "type": "object",
+        "description": "Network configuration for this MKE 4 release",
+        "properties": {
+          "calico": {
+            "type": "object",
+            "description": "Calico network configuration for this MKE 4 release",
+            "properties": {
+              "oss": {
+                "type": "object",
+                "description": "Calico OSS network configuration for this MKE 4 release",
+                "properties": {
+                  "version": {
+                    "type": "string",
+                    "description": "version for Calico OSS for this MKE 4 release"
+                  }
+                },
+                "required": ["version"]
+              }
+            },
+            "required": ["oss"]
+          }
+        },
+        "required": ["calico"]
       }
     },
-    "required": ["mkeReleaseVersion", "k0rdentVersion", "mkeOperatorImageVersion", "mkeOperatorChartVersion", "k0sVersion", "minimumMkectlVersion"]
+    "required": ["mkeReleaseVersion", "k0rdentVersion", "mkeOperatorImageVersion", "mkeOperatorChartVersion", "k0sVersion", "network" ,"minimumMkectlVersion"]
   }
 }
