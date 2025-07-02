@@ -1,12 +1,12 @@
 [
   {
-    "mkeReleaseVersion": "v4.1.1-alpha.1",
-    "k0rdentVersion": "v0.2.0-alpha4",
-    "mkeOperatorImageVersion": "v1.3.2",
-    "mkeOperatorChartVersion": "1.1.4",
-    "k0sVersion": "v1.32.3+k0s.0",
+    "mkeReleaseVersion": "v4.1.1-alpha.3",
+    "k0rdentVersion": "1.0.0",
+    "mkeOperatorImageVersion": "v1.3.4",
+    "mkeOperatorChartVersion": "1.4.0",
+    "k0sVersion": "v1.32.6+k0s.0",
     "isLatest": true,
-    "minimumMkectlVersion": "v4.1.1-alpha.1",
+    "minimumMkectlVersion": "v4.1.1-alpha.3",
     "network": {
       "calico": {
         "oss": {
@@ -17,7 +17,7 @@
   },
   {
     "mkeReleaseVersion": "v4.1.0",
-    "k0rdentVersion": "v0.2.0-alpha4",
+    "k0rdentVersion": "0.2.0-alpha4",
     "mkeOperatorImageVersion": "v1.3.0",
     "mkeOperatorChartVersion": "1.0.0",
     "calicoOSSVersion": "v3.29.3",
