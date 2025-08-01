@@ -65,7 +65,7 @@ download_mkectl() {
  # Verify the file is a valid gzip archive
  if [ -s /tmp/mkectl.tar.gz ]; then
    # Extract the downloaded file
-   tar -xvzf /tmp/mkectl.tar.gz -C "$installPath" && echo "mkectl is now executable in $installPath" || echo "Error: Downloaded file is not a valid gzip archive" >&2 && exit 1
+   tar -xvzf /tmp/mkectl.tar.gz -C "$installPath" && echo "mkectl is now executable in $installPath" || { echo "Error: Downloaded file is not a valid gzip archive" >&2; exit 1; }
  else
    echo "Error: Downloaded file is empty." >&2
    exit 1
