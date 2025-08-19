@@ -1,32 +1,16 @@
 [
   {
-    "mkeReleaseVersion": "v4.1.1-beta.1",
-    "k0rdentVersion": "1.1.0-rc5",
-    "mkeOperatorImageVersion": "v1.4.0",
-    "mkeOperatorChartVersion": "3.2.0",
+    "mkeReleaseVersion": "v4.1.1-rc.1",
+    "k0rdentVersion": "1.1.0",
+    "mkeOperatorImageVersion": "v1.4.1",
+    "mkeOperatorChartVersion": "3.3.3",
     "k0sVersion": "v1.32.6+k0s.0",
     "isLatest": true,
-    "minimumMkectlVersion": "v4.1.1-beta.1",
+    "minimumMkectlVersion": "v4.1.1-rc.1",
     "network": {
       "calico": {
         "oss": {
-          "version": "v3.29.3"
-        }
-      }
-    }
-  },
-  {
-    "mkeReleaseVersion": "v4.1.1-alpha.3",
-    "k0rdentVersion": "1.0.0",
-    "mkeOperatorImageVersion": "v1.3.4",
-    "mkeOperatorChartVersion": "1.4.0",
-    "k0sVersion": "v1.32.6+k0s.0",
-    "isLatest": false,
-    "minimumMkectlVersion": "v4.1.1-alpha.3",
-    "network": {
-      "calico": {
-        "oss": {
-          "version": "v3.29.3"
+          "version": "v3.30.200"
         }
       }
     }
