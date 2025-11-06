@@ -1,12 +1,12 @@
 [
   {
-    "mkeReleaseVersion": "v4.1.2-alpha.4",
+    "mkeReleaseVersion": "v4.1.2-beta.1",
     "k0rdentVersion": "1.1.0",
-    "mkeOperatorImageVersion": "v1.4.9",
-    "mkeOperatorChartVersion": "3.8.1",
+    "mkeOperatorImageVersion": "v1.4.10",
+    "mkeOperatorChartVersion": "3.8.5",
     "k0sVersion": "v1.32.6+k0s.0",
     "isLatest": false,
-    "minimumMkectlVersion": "v4.1.2-alpha.4",
+    "minimumMkectlVersion": "v4.1.2-beta.1",
     "network": {
       "calico": {
         "oss": {
