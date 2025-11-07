@@ -191,7 +191,7 @@ main() {
 
   else
     # Make sure it is a valid version
-    if ! curl -s https://api.github.com/repos/mirantiscontainers/mke-release/releases | grep -q "\"tag_name\": \"${MKECTL_VERSION}\""; then
+    if ! curl -s https://api.github.com/repos/mirantiscontainers/mke-release/releases?per_page=40 | grep -q "\"tag_name\": \"${MKECTL_VERSION}\""; then
       echo "Error: Invalid version specified: ${MKECTL_VERSION}"
       exit 1
     fi
