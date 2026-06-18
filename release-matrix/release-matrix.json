@@ -6,7 +6,7 @@
     "mkeOperatorChartVersion": "3.19.24",
     "k0sVersion": "v1.35.4+k0s.0",
     "isLatest": false,
-    "minimumMkectlVersion": "v4.2.0-rc.1",
+    "minimumMkectlVersion": "v4.2.0-rc.2",
     "network": {
       "calico": {
         "oss": {
