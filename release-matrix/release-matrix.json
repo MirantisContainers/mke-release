@@ -2,7 +2,7 @@
   {
     "mkeReleaseVersion": "v4.2.1-beta.1",
     "k0rdentVersion": "1.4.1",
-    "mkeOperatorImageVersion": "v1.7.10",
+    "mkeOperatorImageVersion": "v1.7.11",
     "mkeOperatorChartVersion": "3.19.37",
     "k0sVersion": "v1.35.4+k0s.0",
     "isLatest": false,
